@@ -1,0 +1,21 @@
+
+syntax = "proto3";
+
+package sidecar;
+
+service Builder {
+	rpc Build(BuildRequest) returns (stream BuildResponse);
+}
+
+message BuildRequest {
+	string source_path = 1;        // shared volume relative chaincode source directory
+	string metadata_path = 2;      // shared volume relative chaincode metadata directory
+	string output_path = 3;        // shared volume relative chaincode build output directory
+}
+
+message BuildResponse {
+	oneof message {
+		string standard_out = 1;   // one line of standard output with newline
+		string standard_error = 2; // one line of standard error with newline
+	}
+}
