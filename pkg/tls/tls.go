@@ -78,7 +78,7 @@ func (g *Generate) SelfSignedCert(params Param, privKey interface{}) ([]byte, er
 	template := x509.Certificate{
 		SerialNumber: serialNumber,
 		Subject: pkix.Name{
-			Organization: []string{"IBM IBP"},
+			Organization: []string{"IBP"},
 		},
 		NotBefore:             notBefore,
 		NotAfter:              notAfter,

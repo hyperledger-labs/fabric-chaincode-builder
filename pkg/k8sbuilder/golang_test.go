@@ -47,9 +47,9 @@ func TestGolangRunContainer(t *testing.T) {
 	rmd := &runMetadata{
 		PeerAddress: "peer-address:9999",
 	}
-	gt.Expect(golangRunContainer(rmd, "us.icr.io/ibp-temp/ibp-goenv:2.1.0-20200505-amd64")).To(Equal(v1.Container{
+	gt.Expect(golangRunContainer(rmd, "dockerhub.io/fabric-chaincode-baseimage/goenv:latest-amd64")).To(Equal(v1.Container{
 		Name:            "run-go-chaincode",
-		Image:           "us.icr.io/ibp-temp/ibp-goenv:2.1.0-20200505-amd64",
+		Image:           "dockerhub.io/fabric-chaincode-baseimage/goenv:latest-amd64",
 		ImagePullPolicy: v1.PullAlways,
 		Command:         []string{"/bin/sh"},
 		Args: []string{
