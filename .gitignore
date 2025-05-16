@@ -1,0 +1,6 @@
+vendor/
+build/
+.env
+golang_copyright.txt
+shell_copyright.txt
+launch.json

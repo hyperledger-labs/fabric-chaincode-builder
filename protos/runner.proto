@@ -1,0 +1,21 @@
+
+syntax = "proto3";
+
+package sidecar;
+
+service Runner {
+	rpc Run(RunRequest) returns (stream RunResponse);
+}
+
+message RunRequest {
+	string chaincode_path = 1;     // shared volume relative chaincode directory
+	string metadata_path = 2;      // shared volume relative package metadata directory
+	string artifacts_path = 3;     // shared volume relative artifacts (keys, certs) directory
+}
+
+message RunResponse {
+	oneof message {
+		string standard_out = 1;   // one line of standard output with newline
+		string standard_error = 2; // one line of standard error with newline
+	}
+}
