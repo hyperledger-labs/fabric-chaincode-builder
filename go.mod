@@ -1,8 +1,8 @@
 module github.com/hyperledger-labs/fabric-chaincode-builder
 
-go 1.23.0
+go 1.24.0
 
-toolchain go1.23.2
+toolchain go1.24.3
 
 require (
 	github.com/golang/protobuf v1.5.3
