@@ -99,10 +99,10 @@ func (b *Build) Run(stderr io.Writer, args ...string) (int, error) {
 
 		switch message := buildResponse.Message.(type) {
 		case *sidecar.BuildResponse_StandardOut:
-			fmt.Fprintf(stderr, message.StandardOut)
+			fmt.Fprintf(stderr, "%s", message.StandardOut)
 
 		case *sidecar.BuildResponse_StandardError:
-			fmt.Fprintf(stderr, message.StandardError)
+			fmt.Fprintf(stderr, "%s", message.StandardError)
 
 		default:
 			return 0, fmt.Errorf("unexpected server response message %T", message)
