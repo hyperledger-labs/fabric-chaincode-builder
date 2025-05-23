@@ -91,10 +91,10 @@ func (r *Run) Run(stderr io.Writer, args ...string) (int, error) {
 
 		switch message := runResponse.Message.(type) {
 		case *sidecar.RunResponse_StandardOut:
-			fmt.Fprintf(stderr, message.StandardOut)
+			fmt.Fprintf(stderr, "%s", message.StandardOut)
 
 		case *sidecar.RunResponse_StandardError:
-			fmt.Fprintf(stderr, message.StandardError)
+			fmt.Fprintf(stderr, "%s", message.StandardError)
 
 		default:
 			return 0, fmt.Errorf("unexpected server response message %T", message)
