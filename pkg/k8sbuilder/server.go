@@ -33,6 +33,7 @@ import (
 	"path/filepath"
 	"strings"
 	"sync"
+	"log"
 
 	"github.com/hyperledger-labs/fabric-chaincode-builder/pkg/sidecar"
 
@@ -474,7 +475,8 @@ func (b *Server) runPodDefinition(runContainer v1.Container, runMetadata *runMet
 		BlockOwnerDeletion: &boolTrue,
 		Controller:         &boolTrue,
 	}
-
+	
+	log.Printf("Before affinity...")
 	affinity := &v1.Affinity{
 		PodAffinity: &v1.PodAffinity{
 			RequiredDuringSchedulingIgnoredDuringExecution: []v1.PodAffinityTerm{
@@ -489,7 +491,8 @@ func (b *Server) runPodDefinition(runContainer v1.Container, runMetadata *runMet
 			},
 		},
 	}
-
+	log.Printf("Affinity value: %s", affinity)
+	
 	return &v1.Pod{
 		ObjectMeta: metav1.ObjectMeta{
 			Name: "chaincode-execution-" + uuid,
