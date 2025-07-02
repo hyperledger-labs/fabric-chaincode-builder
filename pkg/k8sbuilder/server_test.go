@@ -31,6 +31,7 @@ import (
 	"sync"
 	"testing"
 	"time"
+	"log"
 
 	"github.com/hyperledger-labs/fabric-chaincode-builder/pkg/k8sbuilder/fakes"
 	"github.com/hyperledger-labs/fabric-chaincode-builder/pkg/sidecar"
@@ -480,6 +481,7 @@ func TestRunPodDefinition(t *testing.T) {
 	pod.Name = ""
 	boolTrue := true
 
+	log.Printf("Before affinity...")
 	affinity := &v1.Affinity{
 		PodAffinity: &v1.PodAffinity{
 			RequiredDuringSchedulingIgnoredDuringExecution: []v1.PodAffinityTerm{
@@ -494,6 +496,7 @@ func TestRunPodDefinition(t *testing.T) {
 			},
 		},
 	}
+	log.Printf("Affinity value: %s", affinity)
 
 	gt.Expect(pod).To(Equal(&v1.Pod{
 		ObjectMeta: metav1.ObjectMeta{
