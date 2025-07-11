@@ -68,15 +68,20 @@ func TestHandlerGet(t *testing.T) {
 
 func TestHandlerPut(t *testing.T) {
 	gt := NewGomegaWithT(t)
+
 	tempdir, err := ioutil.TempDir("", "handler-put")
 	gt.Expect(err).NotTo(HaveOccurred())
 	defer os.RemoveAll(tempdir)
 
 	err = fs.CopyDir("testdata", tempdir)
 	gt.Expect(err).NotTo(HaveOccurred())
-	err = os.Mkdir(filepath.Join(tempdir, "no-perm"), 0555)
+
+	// Step 3: Create a no-perm directory
+	noPermPath := filepath.Join(tempdir, "no-perm")
+	err = os.Mkdir(noPermPath, 0555)
 	gt.Expect(err).NotTo(HaveOccurred())
 
+	// Step 4: Define test cases
 	tests := []struct {
 		path   string
 		status int
@@ -89,17 +94,28 @@ func TestHandlerPut(t *testing.T) {
 		{path: "/new-file.txt", status: http.StatusCreated},
 	}
 
-	handler := &Handler{Root: tempdir, Username: "testuser", Password: "testpassword"}
+	handler := &Handler{
+		Root:     tempdir,
+		Username: "testuser",
+		Password: "testpassword",
+	}
+
 	for _, tt := range tests {
 		t.Run(tt.path, func(t *testing.T) {
 			gt := NewGomegaWithT(t)
 
+			if os.Geteuid() == 0 && tt.path == "/no-perm/file.txt" {
+				t.Skip("Skipping /no-perm/file.txt test when running as root")
+			}
+
 			req := httptest.NewRequest(http.MethodPut, tt.path, strings.NewReader("content"))
 			req.SetBasicAuth("testuser", "testpassword")
 			resp := httptest.NewRecorder()
+
 			handler.ServeHTTP(resp, req)
 
-			gt.Expect(resp.Code).To(Equal(tt.status))
+			gt.Expect(resp.Code).To(Equal(tt.status), "unexpected status for path %s", tt.path)
+
 			if resp.Code == http.StatusCreated {
 				newfile := filepath.Join(tempdir, tt.path)
 				gt.Expect(newfile).To(BeARegularFile())

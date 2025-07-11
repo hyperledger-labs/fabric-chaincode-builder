@@ -552,6 +552,10 @@ func (b *Server) runPodDefinition(runContainer v1.Container, runMetadata *runMet
 }
 
 func (b *Server) hasZoneLabels() bool {
+
+	if b == nil || b.NodeClient == nil {
+		return false
+	}
 	nodes, err := b.NodeClient.List(context.TODO(), metav1.ListOptions{})
 	if err != nil {
 		// If API call fails, better to assume zone labels are absent
