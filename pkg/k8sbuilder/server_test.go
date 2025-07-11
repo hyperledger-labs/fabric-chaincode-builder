@@ -495,7 +495,7 @@ func TestRunPodDefinition(t *testing.T) {
 		},
 	}
 
-pod.Spec.Affinity = affinity
+	pod.Spec.Affinity = affinity
 	gt.Expect(pod).To(Equal(&v1.Pod{
 		ObjectMeta: metav1.ObjectMeta{
 			Labels: map[string]string{
