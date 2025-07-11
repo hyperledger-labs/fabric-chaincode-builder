@@ -76,12 +76,10 @@ func TestHandlerPut(t *testing.T) {
 	err = fs.CopyDir("testdata", tempdir)
 	gt.Expect(err).NotTo(HaveOccurred())
 
-	// Step 3: Create a no-perm directory
 	noPermPath := filepath.Join(tempdir, "no-perm")
 	err = os.Mkdir(noPermPath, 0555)
 	gt.Expect(err).NotTo(HaveOccurred())
 
-	// Step 4: Define test cases
 	tests := []struct {
 		path   string
 		status int
