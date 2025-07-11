@@ -52,6 +52,7 @@ import (
 type Server struct {
 	SecretClient      corev1.SecretInterface
 	PodClient         corev1.PodInterface
+	NodeClient        corev1.NodeInterface
 	SharedPath        string
 	FSBaseURL         string
 	FileTransferImage string
@@ -475,19 +476,22 @@ func (b *Server) runPodDefinition(runContainer v1.Container, runMetadata *runMet
 		Controller:         &boolTrue,
 	}
 
-	affinity := &v1.Affinity{
-		PodAffinity: &v1.PodAffinity{
-			RequiredDuringSchedulingIgnoredDuringExecution: []v1.PodAffinityTerm{
-				{
-					LabelSelector: &metav1.LabelSelector{
-						MatchLabels: map[string]string{
-							"app": b.PeerID,
+	var affinity *v1.Affinity = nil
+	if b.hasZoneLabels() {
+		affinity = &v1.Affinity{
+			PodAffinity: &v1.PodAffinity{
+				RequiredDuringSchedulingIgnoredDuringExecution: []v1.PodAffinityTerm{
+					{
+						LabelSelector: &metav1.LabelSelector{
+							MatchLabels: map[string]string{
+								"app": b.PeerID,
+							},
 						},
+						TopologyKey: "topology.kubernetes.io/zone",
 					},
-					TopologyKey: "topology.kubernetes.io/zone",
 				},
 			},
-		},
+		}
 	}
 
 	return &v1.Pod{
@@ -545,6 +549,20 @@ func (b *Server) runPodDefinition(runContainer v1.Container, runMetadata *runMet
 			Affinity: affinity, // Updated affinity here
 		},
 	}
+}
+
+func (b *Server) hasZoneLabels() bool {
+	nodes, err := b.NodeClient.List(context.TODO(), metav1.ListOptions{})
+	if err != nil {
+		// If API call fails, better to assume zone labels are absent
+		return false
+	}
+	for _, node := range nodes.Items {
+		if _, ok := node.Labels["topology.kubernetes.io/zone"]; ok {
+			return true
+		}
+	}
+	return false
 }
 
 func (b *Server) runContainerDefinition(ccType string, rmd *runMetadata) (v1.Container, error) {
