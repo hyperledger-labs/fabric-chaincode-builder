@@ -4,3 +4,4 @@ build/
 golang_copyright.txt
 shell_copyright.txt
 launch.json
+.DS_Store
