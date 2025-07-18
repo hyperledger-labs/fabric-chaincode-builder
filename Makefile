@@ -44,7 +44,7 @@ build:
 	GOOS=$(GOOS) GOARCH=$(ARCH) go build -o build/chaincode-builder ./cmd/ibp-builder
 	GOOS=$(GOOS) GOARCH=$(ARCH) go build -o build/chaincode-builder-client ./cmd/ibp-builder-client
 
-image: login
+image: ## Builds a x86 based image
 	@go mod vendor
 	docker build --rm . -f Dockerfile $(BUILD_ARGS) -t $(IMAGE):$(TAG)-$(ARCH)
 	docker tag $(IMAGE):$(TAG)-$(ARCH) $(IMAGE):latest-$(ARCH)
@@ -53,11 +53,7 @@ image-nologin:
 	@go mod vendor
 	docker build --rm . -f Dockerfile $(BUILD_ARGS) -t $(IMAGE):$(TAG)-$(ARCH)
 	docker tag $(IMAGE):$(TAG)-$(ARCH) $(IMAGE):latest-$(ARCH)
-
-login:
-	echo $(DOCKER_PASSWORD) | docker login -u $(DOCKER_USERNAME) --password-stdin $(DOCKER_IMAGE_REPO)
-
-image-push: login
+image-push: 
 	docker push $(IMAGE):$(TAG)-$(ARCH)
 
 unit-tests:

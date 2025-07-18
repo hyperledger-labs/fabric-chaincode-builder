@@ -52,7 +52,7 @@ jobs:
       - name: checks
         run: make checks
       - name: gosec
-        run: make go-sec
+        run: make gosec
       - name: build
         run: make image
   
