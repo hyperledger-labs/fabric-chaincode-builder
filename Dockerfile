@@ -55,7 +55,7 @@ RUN groupadd -g 7051 ibp-user \
     && microdnf remove -y shadow-utils \
     && microdnf clean -y all;
 
-COPY --from=builder /go/src/github.ibm.com/ibp/chaincode-builder/build/fabric-chaincode-builder ${BUILDER}
+COPY --from=builder /go/src/github.ibm.com/fabric/fabric-chaincode-builder/build/fabric-chaincode-builder ${BUILDER}
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
 USER ibp-user
