@@ -67,4 +67,4 @@ checks: license
 
 .PHONY: license
 license:
-	chmod +x @scripts/check-license.sh
+	@scripts/check-license.sh

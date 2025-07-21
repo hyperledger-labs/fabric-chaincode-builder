@@ -50,7 +50,10 @@ jobs:
       - name: unit-tests
         run: go test `go list ./... | grep -v integration`
       - name: checks
-        run: make checks
+        run: |
+          echo "*********************Running checks*************************" 
+          la -al
+          make checks
       - name: gosec
         run: make gosec
       - name: build
