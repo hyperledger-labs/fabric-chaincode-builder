@@ -22,7 +22,7 @@ ARG GO_VER
 FROM registry.access.redhat.com/ubi9/ubi-minimal as builder
 # gcc required for cgo
 RUN  microdnf install -y tar gzip gcc
-
+RUN echo "GO_VER=${GO_VER}" && echo "ARCH=${ARCH}"
 RUN curl -sL https://go.dev/dl/go${GO_VER}.linux-${ARCH}.tar.gz | tar zxf - -C /usr/local
 ENV PATH="/usr/local/go/bin:$PATH"
 COPY . /go/src/github.ibm.com/fabric/fabric-chaincode-builder
