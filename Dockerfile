@@ -16,10 +16,11 @@
 # limitations under the License.
 #
 ARG ARCH
-ARG REGISTRY
 ARG GO_VER
 
 FROM registry.access.redhat.com/ubi9/ubi-minimal as builder
+ARG GO_VER
+ARG ARCH
 # gcc required for cgo
 RUN  microdnf install -y tar gzip gcc
 RUN echo "GO_VER=${GO_VER}" && echo "ARCH=${ARCH}"
