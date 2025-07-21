@@ -52,7 +52,7 @@ jobs:
       - name: checks
         run: |
           echo "*********************Running checks*************************" 
-          ls -al
+          ls -l scripts/check-license.sh
           make checks
       - name: gosec
         run: make gosec
