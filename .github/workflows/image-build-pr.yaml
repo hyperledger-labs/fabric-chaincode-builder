@@ -51,10 +51,9 @@ jobs:
         run: go test `go list ./... | grep -v integration`
       - name: checks
         run: |
-          echo "*********************Running checks*************************" 
-          chmod +x scripts/check-license.sh
-          ls -l scripts/check-license.sh
-          make checks
+          echo "*********************Running checks*************************"
+           chmod +x scripts/*
+           make checks
       - name: gosec
         run: make gosec
       - name: build
