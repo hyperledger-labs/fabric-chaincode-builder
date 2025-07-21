@@ -17,7 +17,7 @@
 #
 
 
-IMAGE ?= ghcr.io/hyperledger-labs/chaincode-builder
+IMAGE ?= ghcr.io/hyperledger-labs/fabric-chaincode-builder
 TAG ?= $(shell git rev-parse --short HEAD)
 ARCH ?= $(shell go env GOARCH)
 BRANCH ?= $(shell git branch --show-current)
@@ -41,8 +41,8 @@ int-tests:
 	@ginkgo -v ./integration
 
 build:
-	GOOS=$(GOOS) GOARCH=$(ARCH) go build -o build/chaincode-builder ./cmd/ibp-builder
-	GOOS=$(GOOS) GOARCH=$(ARCH) go build -o build/chaincode-builder-client ./cmd/ibp-builder-client
+	GOOS=$(GOOS) GOARCH=$(ARCH) go build -o build/fabric-chaincode-builder ./cmd/fabric-builder
+	GOOS=$(GOOS) GOARCH=$(ARCH) go build -o build/fabric-chaincode-builder-client ./cmd/fabric-builder-client
 
 image: ## Builds a x86 based image
 	@go mod vendor
