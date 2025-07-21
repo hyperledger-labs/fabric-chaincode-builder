@@ -52,7 +52,7 @@ jobs:
       - name: checks
         run: |
           echo "*********************Running checks*************************" 
-          la -al
+          ls -al
           make checks
       - name: gosec
         run: make gosec
