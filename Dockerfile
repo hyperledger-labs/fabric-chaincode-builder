@@ -31,7 +31,7 @@ RUN curl -sSL https://go.dev/dl/go${GO_VER}.linux-${ARCH}.tar.gz | tar zxf - -C 
 ENV PATH="/usr/local/go/bin:$PATH"
 COPY . /go/src/github.ibm.com/fabric/fabric-chaincode-builder
 WORKDIR /go/src/github.ibm.com/fabric/fabric-chaincode-builder
-RUN GOOS=linux GOARCH=$(go env GOARCH) go build -o build/fabric-chaincode-builder ./cmd/fabric-builder
+RUN GOOS=linux GOARCH=$(go env GOARCH) go build -o build/fabric-chaincode-builder ./cmd/ibp-builder
 
 FROM registry.access.redhat.com/ubi9/ubi-minimal
 ARG IBP_VER

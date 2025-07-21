@@ -41,8 +41,8 @@ int-tests:
 	@ginkgo -v ./integration
 
 build:
-	GOOS=$(GOOS) GOARCH=$(ARCH) go build -o build/fabric-chaincode-builder ./cmd/fabric-builder
-	GOOS=$(GOOS) GOARCH=$(ARCH) go build -o build/fabric-chaincode-builder-client ./cmd/fabric-builder-client
+	GOOS=$(GOOS) GOARCH=$(ARCH) go build -o build/fabric-chaincode-builder ./cmd/ibp-builder
+	GOOS=$(GOOS) GOARCH=$(ARCH) go build -o build/fabric-chaincode-builder-client ./cmd/ibp-builder-client
 
 image: ## Builds a x86 based image
 	@go mod vendor
